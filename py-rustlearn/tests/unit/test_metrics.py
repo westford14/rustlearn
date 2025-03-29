@@ -8,7 +8,7 @@ from rustlearn import NamedArray
 from rustlearn.metrics import (
     mean_absolute_error,
     mean_squared_error,
-    root_mean_squared_error
+    root_mean_squared_error,
 )
 from rustlearn.exceptions import ValidationError
 
@@ -32,7 +32,7 @@ def test_mean_absolute_error(y_true) -> None:
 
 def test_mean_absolute_error_raises(y_true) -> None:
     """Simple test for raising the AttributeError."""
-    test = NamedArray("y_pred", [1,2,3])
+    test = NamedArray("y_pred", [1, 2, 3])
     with pytest.raises(ValidationError):
         mean_absolute_error(y_true, test)
 
@@ -50,7 +50,7 @@ def test_mean_squared_error(y_true) -> None:
 
 def test_mean_squared_error_raises(y_true) -> None:
     """Simple test for raising the AttributeError."""
-    test = NamedArray("y_pred", [1,2,3])
+    test = NamedArray("y_pred", [1, 2, 3])
     with pytest.raises(ValidationError):
         mean_squared_error(y_true, test)
 
@@ -68,6 +68,6 @@ def test_root_mean_squared_error(y_true) -> None:
 
 def test_root_mean_squared_error_raises(y_true) -> None:
     """Simple test for raising the AttributeError."""
-    test = NamedArray("y_pred", [1,2,3])
+    test = NamedArray("y_pred", [1, 2, 3])
     with pytest.raises(ValidationError):
         root_mean_squared_error(y_true, test)

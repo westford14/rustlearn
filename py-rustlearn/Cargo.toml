@@ -15,4 +15,3 @@ pyo3 = "0.23.3"
 
 rustlearn = { workspace = true }
 rustlearn-python = { workspace = true }
-rustlearn-metrics = { workspace = true }
