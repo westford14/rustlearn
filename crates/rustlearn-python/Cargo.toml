@@ -1,0 +1,14 @@
+[package]
+name = "rustlearn-python"
+edition = "2021"
+version = { workspace = true }
+authors = { workspace = true }
+license = { workspace = true }
+description = "Enable running rust-kit-learn workloads in Python"
+
+[dependencies]
+pyo3 = "0.23.3"
+
+rustlearn-errors = { workspace = true }
+rustlearn-metrics = { workspace = true }
+rustlearn-array = { workspace = true }

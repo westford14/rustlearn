@@ -1,0 +1,12 @@
+[package]
+name = "rustlearn"
+edition = "2021"
+version = { workspace = true }
+authors = { workspace = true }
+license = { workspace = true }
+description = "Enable rustlearn"
+
+[dependencies]
+rustlearn-errors = { workspace = true }
+rustlearn-metrics = { workspace = true }
+rustlearn-array = { workspace = true }

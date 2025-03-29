@@ -1,0 +1,8 @@
+[package]
+name = "rustlearn-model-selection"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rustlearn-errors = { workspace = true }
+rustlearn-array = { workspace = true }

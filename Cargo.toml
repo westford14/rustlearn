@@ -1,0 +1,29 @@
+[workspace]
+resolver = "2"
+members = [
+  "crates/*",
+  "py-rustlearn"
+]
+default-members = [
+  "crates/*",
+]
+
+[workspace.package]
+version = "0.1.0"
+authors = ["Alex Lee <westford14@gmail.com>"]
+license = "MIT"
+
+[workspace.dependencies]
+pyo3 = "0.23.3"
+num = "0.4"
+
+rustlearn = { version = "0.1.0", path = "crates/rustlearn", default-features = false }
+rustlearn-array = { version = "0.1.0", path = "crates/rustlearn-array", default-features = false }
+rustlearn-errors = { version = "0.1.0", path = "crates/rustlearn-errors", default-features = false }
+rustlearn-linear-model = { version = "0.1.0", path = "crates/rustlearn-linear-model", default-features = false }
+rustlearn-metrics = { version = "0.1.0", path = "crates/rustlearn-metrics", default-features = false }
+rustlearn-model-selection = { version = "0.1.0", path = "crates/rustlearn-model-selection", default-features = false }
+rustlearn-python = { version = "0.1.0", path = "crates/rustlearn-python", default-features = false }
+
+[workspace.dev-dependencies]
+rstest = "0.25.0"

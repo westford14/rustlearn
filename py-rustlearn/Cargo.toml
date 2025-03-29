@@ -1,0 +1,18 @@
+[package]
+name = "py-rustlearn"
+edition = "2021"
+version = { workspace = true }
+authors = { workspace = true }
+license = { workspace = true }
+description = "Enable running rust-kit-learn workloads in Python"
+
+[lib]
+name = "rustylearn"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = "0.23.3"
+
+rustlearn = { workspace = true }
+rustlearn-python = { workspace = true }
+rustlearn-metrics = { workspace = true }
