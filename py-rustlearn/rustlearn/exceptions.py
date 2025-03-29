@@ -1,7 +1,5 @@
-from rustylearn import RustLearnError, ValidationError, NotYetImplementedError
+"""Exceptions for rustlearn."""
 
-__all__ = [
-    "RustLearnError",
-    "ValidationError",
-    "NotYetImplementedError"
-]
+from rustylearn import NotYetImplementedError, RustLearnError, ValidationError
+
+__all__ = ["RustLearnError", "ValidationError", "NotYetImplementedError"]

@@ -1,12 +1,16 @@
 use pyo3::prelude::*;
 use rustlearn_python::array::PyNamedArray;
 use rustlearn_python::exceptions::{NotYetImplementedError, RustLearnError, ValidationError};
+use rustlearn_python::linear_model::linear_regression::PySimpleLinearRegression;
+use rustlearn_python::linear_model::PyLinearRegressionReturn;
 use rustlearn_python::metrics::{mean_absolute_error, mean_squared_error};
 
 #[pymodule]
 fn rustylearn(py: Python, m: &Bound<PyModule>) -> PyResult<()> {
     // Base Classes
     m.add_class::<PyNamedArray>().unwrap();
+    m.add_class::<PyLinearRegressionReturn>().unwrap();
+    m.add_class::<PySimpleLinearRegression>().unwrap();
 
     // Metrics
     m.add_wrapped(wrap_pyfunction!(
