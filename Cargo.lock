@@ -248,7 +248,6 @@ version = "0.1.0"
 dependencies = [
  "pyo3",
  "rustlearn",
- "rustlearn-metrics",
  "rustlearn-python",
 ]
 
@@ -404,6 +403,7 @@ version = "0.1.0"
 dependencies = [
  "rustlearn-array",
  "rustlearn-errors",
+ "rustlearn-linear-model",
  "rustlearn-metrics",
 ]
 
@@ -458,6 +458,7 @@ dependencies = [
  "pyo3",
  "rustlearn-array",
  "rustlearn-errors",
+ "rustlearn-linear-model",
  "rustlearn-metrics",
 ]
 

@@ -1,12 +1,12 @@
 use std::collections::HashMap;
 
-use crate::core::types::LinearRegressionReturn;
+use crate::types::LinearRegressionReturn;
 use num::{Num, ToPrimitive};
 use rustlearn_array::namedarray::NamedArray;
 use rustlearn_errors::RustLearnError::ValidationError;
 use rustlearn_errors::{ErrString, RustLearnError};
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct SimpleLinearRegression<T> {
     pub x: NamedArray<T>,
     pub y: NamedArray<T>,
@@ -34,6 +34,7 @@ where
     where
         T: ToPrimitive,
         T: Num,
+        T: Clone,
         T: Copy,
     {
         if x.len() != y.len() {
@@ -79,6 +80,7 @@ where
         T: ToPrimitive,
         T: Clone,
         T: Into<f64>,
+        T: Copy,
     {
         return Self::single_linear_regression_estimate(self);
     }
