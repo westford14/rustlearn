@@ -12,3 +12,4 @@ pyo3 = "0.23.3"
 rustlearn-errors = { workspace = true }
 rustlearn-metrics = { workspace = true }
 rustlearn-array = { workspace = true }
+rustlearn-linear-model = { workspace = true }
