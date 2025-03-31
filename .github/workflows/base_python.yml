@@ -76,8 +76,12 @@ jobs:
           maturin develop -m py-rustlearn/Cargo.toml
       
       - name: Run Testing
-        run: cd py-rustlearn && tox -e unit
+        run: |
+          source .venv/bin/activate && \
+          cd py-rustlearn && tox -e unit
       
       - name: Run unit tests + get coverage
-        run: cd py-rustlearn && tox -e coverage
+        run: |
+          source .venv/bin/activate && \
+          cd py-rustlearn && tox -e coverage
     
