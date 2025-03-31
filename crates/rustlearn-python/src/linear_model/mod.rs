@@ -4,6 +4,7 @@ use std::collections::HashMap;
 use rustlearn_linear_model::types::LinearRegressionReturn;
 
 pub mod linear_regression;
+pub mod multiple_regression;
 
 #[pyclass]
 pub struct PyLinearRegressionReturn {
