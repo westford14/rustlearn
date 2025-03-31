@@ -58,14 +58,21 @@ jobs:
           path: .venv
           key: ${{ runner.os }}-${{ steps.python-setup.outputs.python-version }}-${{ hashFiles('py-rustlearn/requirements-dev.txt') }}
 
+      - name: Build Virtualenv
+        run: |
+          pip install virtualenv
+          virtualenv .venv
+
       - name: Install deps
         run: |
           cd py-rustlearn && \
+          source .venv/bin/activate && \
           pip install -r requirements-dev.txt && \
           pip install -r requirements-release.txt
 
       - name: Build the library
         run: |
+          source .venv/bin/activate
           maturin develop -m py-rustlearn/Cargo.toml
       
       - name: Run Testing
