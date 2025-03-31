@@ -50,8 +50,8 @@ impl PyMultipleLinearRegression {
         }
         let asserted = MultipleLinearRegression::assert_equal_length(n_x, y.named_array);
         match asserted {
-            Ok(_asserted) => return Ok(()),
-            Err(e) => return Err(PyErr::from(PyRustLearnError::RustLearn(e))),
+            Ok(_asserted) => Ok(()),
+            Err(e) => Err(PyErr::from(PyRustLearnError::RustLearn(e))),
         }
     }
 

@@ -14,7 +14,7 @@ where
 {
     let checked = checks(y_true.clone(), y_pred.clone());
     match checked {
-        Some(checked) => return Err(checked),
+        Some(checked) => Err(checked),
         None => {
             let mut total: f64 = 0.0;
             let vec_true: Vec<T> = y_true.data;
@@ -22,7 +22,7 @@ where
             for (i, val) in vec_true.iter().enumerate() {
                 total += (val.to_f64().unwrap() - vec_pred[i].to_f64().unwrap()).powi(2);
             }
-            return Ok(total / vec_true.len() as f64);
+            Ok(total / vec_true.len() as f64)
         }
     }
 }
@@ -36,11 +36,11 @@ where
     T: ToPrimitive,
     T: Copy,
 {
-    let mse: f64 = match mean_squared_error(y_true, y_pred) {
-        Ok(v) => v,
-        Err(e) => return Err(e),
-    };
-    return Ok(mse.powf(0.5));
+    let mse = mean_squared_error(y_true, y_pred);
+    match mse {
+        Ok(mse) => Ok(mse.powf(0.5)),
+        Err(e) => Err(e),
+    }
 }
 
 #[cfg(test)]

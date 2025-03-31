@@ -1,0 +1,70 @@
+name: Python CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: Linting
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+        with:
+          path: 'py-rustlearn'
+
+      - name: Setup Python
+        id: python-setup
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+      
+      - uses: actions/cache@v4
+        id: pipenv-cache
+        with:
+          path: .venv
+          key: ${{ runner.os }}-${{ steps.python-setup.outputs.python-version }}-${{ hashFiles('requirements-dev.txt') }}
+
+      - name: Install Specific Pipenv Version
+        run: pip install -r requirements-dev.txt && pip install -r requirements-release.txt
+      
+      - name: Run linters
+        run: tox -e lint
+
+      # TODO: #4
+      # - name: Run type checker
+      #   run: tox -e type-check
+  
+  test:
+    name: Test
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+        with:
+          path: 'py-rustlearn'
+
+      - name: Setup Python
+        id: python-setup
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+      
+      - uses: actions/cache@v4
+        id: pipenv-cache
+        with:
+          path: .venv
+          key: ${{ runner.os }}-${{ steps.python-setup.outputs.python-version }}-${{ hashFiles('requirements-dev.txt') }}
+
+      - name: Install Specific Pipenv Version
+        run: pip install -r requirements-dev.txt && pip install -r requirements-release.txt
+      
+      - name: Run Testing
+        run: tox -e unit
+      
+      - name: Run unit tests + get coverage
+        run: tox -e coverage
+    

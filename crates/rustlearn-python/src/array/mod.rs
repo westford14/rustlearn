@@ -24,6 +24,10 @@ impl PyNamedArray {
         Ok(PyNamedArray { named_array })
     }
 
+    pub fn is_empty(&self) -> bool {
+        self.named_array.is_empty()
+    }
+
     pub fn len(&self) -> usize {
         self.named_array.len()
     }
@@ -31,16 +35,16 @@ impl PyNamedArray {
     pub fn mean(&self) -> PyResult<f64> {
         let mean = self.named_array.mean();
         match mean {
-            Ok(mean) => return Ok(mean),
-            Err(e) => return Err(PyErr::from(PyRustLearnError::RustLearn(e))),
+            Ok(mean) => Ok(mean),
+            Err(e) => Err(PyErr::from(PyRustLearnError::RustLearn(e))),
         }
     }
 
     pub fn dot(&self, other: PyNamedArray) -> PyResult<f64> {
         let dot_product = self.named_array.dot(other.named_array);
         match dot_product {
-            Ok(dot_product) => return Ok(dot_product),
-            Err(e) => return Err(PyErr::from(PyRustLearnError::RustLearn(e))),
+            Ok(dot_product) => Ok(dot_product),
+            Err(e) => Err(PyErr::from(PyRustLearnError::RustLearn(e))),
         }
     }
 }
