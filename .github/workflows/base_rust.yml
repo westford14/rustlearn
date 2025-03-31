@@ -47,7 +47,6 @@ jobs:
 
       - name: Linting
         run: cargo clippy -- -D warnings
-        env:
 
   coverage:
     name: Code coverage

@@ -14,7 +14,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
         with:
-          path: 'py-rustlearn'
+          path: py-rustlearn
 
       - name: Setup Python
         id: python-setup
@@ -26,13 +26,16 @@ jobs:
         id: pipenv-cache
         with:
           path: .venv
-          key: ${{ runner.os }}-${{ steps.python-setup.outputs.python-version }}-${{ hashFiles('requirements-dev.txt') }}
+          key: ${{ runner.os }}-${{ steps.python-setup.outputs.python-version }}-${{ hashFiles('py-rustlearn/requirements-dev.txt') }}
 
-      - name: Install Specific Pipenv Version
-        run: pip install -r requirements-dev.txt && pip install -r requirements-release.txt
+      - name: Install deps
+        run: |
+          cd py-rustlearn
+          pip install -r requirements-dev.txt
+          pip install -r requirements-release.txt
       
       - name: Run linters
-        run: tox -e lint
+        run: cd py-rustlearn && tox -e lint
 
       # TODO: #4
       # - name: Run type checker
@@ -44,8 +47,6 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-        with:
-          path: 'py-rustlearn'
 
       - name: Setup Python
         id: python-setup
@@ -57,14 +58,17 @@ jobs:
         id: pipenv-cache
         with:
           path: .venv
-          key: ${{ runner.os }}-${{ steps.python-setup.outputs.python-version }}-${{ hashFiles('requirements-dev.txt') }}
+          key: ${{ runner.os }}-${{ steps.python-setup.outputs.python-version }}-${{ hashFiles('py-rustlearn/requirements-dev.txt') }}
 
-      - name: Install Specific Pipenv Version
-        run: pip install -r requirements-dev.txt && pip install -r requirements-release.txt
+      - name: Install deps
+        run: |
+          cd py-rustlearn
+          pip install -r requirements-dev.txt
+          pip install -r requirements-release.txt
       
       - name: Run Testing
-        run: tox -e unit
+        run: cd py-rustlearn && tox -e unit
       
       - name: Run unit tests + get coverage
-        run: tox -e coverage
+        run: cd py-rustlearn && tox -e coverage
     
