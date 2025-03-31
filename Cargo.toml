@@ -16,6 +16,8 @@ license = "MIT"
 [workspace.dependencies]
 pyo3 = "0.23.3"
 num = "0.4"
+ndarray = "0.16.1"
+ndarray-linalg = { version = "0.17.0", features = ["openblas-static"] }
 
 rustlearn = { version = "0.1.0", path = "crates/rustlearn", default-features = false }
 rustlearn-array = { version = "0.1.0", path = "crates/rustlearn-array", default-features = false }
@@ -27,3 +29,4 @@ rustlearn-python = { version = "0.1.0", path = "crates/rustlearn-python", defaul
 
 [workspace.dev-dependencies]
 rstest = "0.25.0"
+assert_float_eq = "1"
