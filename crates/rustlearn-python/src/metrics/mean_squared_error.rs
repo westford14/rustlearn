@@ -18,7 +18,7 @@ pub fn py_mean_squared_error(
         Ok(res) => res,
         Err(e) => return Err(PyErr::from(PyRustLearnError::from(e))),
     };
-    return Ok(res);
+    Ok(res)
 }
 
 #[pyfunction]
@@ -34,5 +34,5 @@ pub fn py_root_mean_squared_error(
         Ok(res) => res,
         Err(e) => return Err(PyErr::from(PyRustLearnError::from(e))),
     };
-    return Ok(res);
+    Ok(res)
 }

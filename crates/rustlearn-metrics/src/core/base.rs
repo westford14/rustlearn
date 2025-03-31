@@ -13,5 +13,5 @@ where
             "series are not the same length",
         )));
     }
-    return None;
+    None
 }

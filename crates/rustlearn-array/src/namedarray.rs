@@ -14,14 +14,18 @@ where
     T: Num + Copy,
 {
     pub fn new(name: &str, data: Vec<T>) -> Result<NamedArray<T>> {
-        return Ok(NamedArray {
+        Ok(NamedArray {
             name: name.to_owned(),
             data,
-        });
+        })
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.data.len() == 0
     }
 
     pub fn len(&self) -> usize {
-        return self.data.len();
+        self.data.len()
     }
 
     pub fn mean(&self) -> Result<f64>
@@ -31,7 +35,7 @@ where
         let sum: T = self.data.iter().copied().fold(T::zero(), T::add);
         let sum_f64: f64 = sum.into();
         let len: f64 = self.data.len() as f64;
-        return Ok(sum_f64 / len);
+        Ok(sum_f64 / len)
     }
 
     pub fn dot(&self, other: NamedArray<T>) -> Result<f64>
@@ -44,7 +48,7 @@ where
             total += x_owned * other.data[i].to_f64().unwrap();
         }
 
-        return Ok(total);
+        Ok(total)
     }
 }
 
@@ -64,6 +68,11 @@ mod array_tests {
     #[rstest]
     fn test_instantiation(named_array_fixture: NamedArray<f64>) {
         drop(named_array_fixture);
+    }
+
+    #[rstest]
+    fn test_is_empty(named_array_fixture: NamedArray<f64>) {
+        assert!(!named_array_fixture.is_empty());
     }
 
     #[rstest]

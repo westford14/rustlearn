@@ -123,7 +123,7 @@ where
         T: Into<f64>,
         T: Copy,
     {
-        return Self::multiple_linear_regression_estimate(self);
+        Self::multiple_linear_regression_estimate(self)
     }
 }
 

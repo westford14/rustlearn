@@ -53,14 +53,8 @@ where
         let col_name = self.x.name.clone();
         let n: f64 = self.x.clone().len().to_f64().unwrap();
 
-        let m_x: f64 = match self.x.clone().mean() {
-            Ok(m_x) => m_x,
-            Err(e) => return Err(e),
-        };
-        let m_y: f64 = match self.y.clone().mean() {
-            Ok(m_y) => m_y,
-            Err(e) => return Err(e),
-        };
+        let m_x: f64 = self.x.clone().mean()?;
+        let m_y: f64 = self.y.clone().mean()?;
 
         let ss_xy: f64 = self.x.clone().dot(self.y.clone()).unwrap() - n * m_y * m_x;
         let ss_xx: f64 = self.x.clone().dot(self.x.clone()).unwrap() - n * m_x * m_x;
@@ -68,10 +62,10 @@ where
         let b_1 = ss_xy / ss_xx;
         let b_0 = m_y - b_1 * m_x;
 
-        return Ok(LinearRegressionReturn {
+        Ok(LinearRegressionReturn {
             intercept: b_0,
             beta_values: HashMap::from([(col_name, b_1)]),
-        });
+        })
     }
 
     pub fn fit(self) -> Result<LinearRegressionReturn>
@@ -82,7 +76,7 @@ where
         T: Into<f64>,
         T: Copy,
     {
-        return Self::single_linear_regression_estimate(self);
+        Self::single_linear_regression_estimate(self)
     }
 }
 

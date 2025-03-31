@@ -14,7 +14,7 @@ where
 {
     let checked = checks(y_true.clone(), y_pred.clone());
     match checked {
-        Some(checked) => return Err(checked),
+        Some(checked) => Err(checked),
         None => {
             let mut total: f64 = 0.0;
             let vec_true: Vec<T> = y_true.data;
@@ -22,7 +22,7 @@ where
             for (i, val) in vec_true.iter().enumerate() {
                 total += (val.to_f64().unwrap() - vec_pred[i].to_f64().unwrap()).abs();
             }
-            return Ok(total / vec_true.len() as f64);
+            Ok(total / vec_true.len() as f64)
         }
     }
 }

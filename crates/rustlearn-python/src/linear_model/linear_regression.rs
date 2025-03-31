@@ -43,8 +43,8 @@ impl PySimpleLinearRegression {
     pub fn assert_equal_length(x: PyNamedArray, y: PyNamedArray) -> PyResult<()> {
         let asserted = SimpleLinearRegression::assert_equal_length(x.named_array, y.named_array);
         match asserted {
-            Ok(_asserted) => return Ok(()),
-            Err(e) => return Err(PyErr::from(PyRustLearnError::RustLearn(e))),
+            Ok(_asserted) => Ok(()),
+            Err(e) => Err(PyErr::from(PyRustLearnError::RustLearn(e))),
         }
     }
 

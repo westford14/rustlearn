@@ -18,5 +18,5 @@ pub fn py_mean_absolute_error(
         Ok(res) => res,
         Err(e) => return Err(PyErr::from(PyRustLearnError::from(e))),
     };
-    return Ok(res);
+    Ok(res)
 }
