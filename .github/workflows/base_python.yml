@@ -63,6 +63,10 @@ jobs:
           cd py-rustlearn && \
           pip install -r requirements-dev.txt && \
           pip install -r requirements-release.txt
+
+      - name: Build the library
+        run: |
+          maturin develop -m py-rustlearn/Cargo.toml
       
       - name: Run Testing
         run: cd py-rustlearn && tox -e unit
