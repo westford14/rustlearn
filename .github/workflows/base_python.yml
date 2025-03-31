@@ -13,8 +13,6 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-        with:
-          path: py-rustlearn
 
       - name: Setup Python
         id: python-setup
@@ -23,15 +21,15 @@ jobs:
           python-version: 3.11
       
       - uses: actions/cache@v4
-        id: pipenv-cache
+        id: cache
         with:
           path: .venv
           key: ${{ runner.os }}-${{ steps.python-setup.outputs.python-version }}-${{ hashFiles('py-rustlearn/requirements-dev.txt') }}
 
       - name: Install deps
         run: |
-          cd py-rustlearn
-          pip install -r requirements-dev.txt
+          cd py-rustlearn && \
+          pip install -r requirements-dev.txt && \
           pip install -r requirements-release.txt
       
       - name: Run linters
@@ -55,15 +53,15 @@ jobs:
           python-version: 3.11
       
       - uses: actions/cache@v4
-        id: pipenv-cache
+        id: cache
         with:
           path: .venv
           key: ${{ runner.os }}-${{ steps.python-setup.outputs.python-version }}-${{ hashFiles('py-rustlearn/requirements-dev.txt') }}
 
       - name: Install deps
         run: |
-          cd py-rustlearn
-          pip install -r requirements-dev.txt
+          cd py-rustlearn && \
+          pip install -r requirements-dev.txt && \
           pip install -r requirements-release.txt
       
       - name: Run Testing
