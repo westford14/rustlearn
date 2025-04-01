@@ -29,12 +29,12 @@ where
         T: Num,
         T: Copy,
     {
-        if y.data.len() == 0 {
+        if y.data.is_empty() {
             return Err(ValidationError(ErrString::from(
                 "target is an empty vector",
             )));
         }
-        if x.len() == 0 {
+        if x.is_empty() {
             return Err(ValidationError(ErrString::from("no x-values provided")));
         }
         Self::assert_equal_length(x.clone(), y.clone())?;
