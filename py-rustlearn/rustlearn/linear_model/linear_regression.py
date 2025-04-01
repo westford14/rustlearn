@@ -4,13 +4,13 @@ from typing import Self
 
 from rustlearn.linear_model.types import LinearRegressionReturn
 from rustlearn.named_array import NamedArray
-from rustylearn import PySimpleLinearRegression
+from rustylearn import PyLinearRegression
 
 
-class SimpleLinearRegression:
-    """Simple linear regression class."""
+class LinearRegression:
+    """Linear regression class."""
 
-    _n: PySimpleLinearRegression = None
+    _n: PyLinearRegression = None
 
     def __init__(self, x: NamedArray, y: NamedArray) -> None:
         """Instantiate the class.
@@ -21,24 +21,24 @@ class SimpleLinearRegression:
         :returns:
             None
         """
-        self.x = x._n
+        self.x = [nm._n for nm in x]
         self.y = y._n
-        self._n = PySimpleLinearRegression(x=self.x, y=self.y)
-        self.assert_equal_length(self.x, self.y)
+        self._n = PyLinearRegression(x=self.x, y=self.y)
+        self.assert_equal_length(x, y)
 
     @classmethod
-    def _from_py_simple_linear_regression(
-        cls, py_simple_linear_regression: PySimpleLinearRegression
+    def _from_py_linear_regression(
+        cls, py_linear_regression: PyLinearRegression
     ) -> Self:
-        """Convert a PySimpleLinearRegression to SimpleLinearRegression.
+        """Convert a PyLinearRegression to LinearRegression.
 
         :params:
-            py_simple_linear_regression: (PySimpleLinearRegression)
+            py_linear_regression: (PyLinearRegression)
         :return:
-            SimpleLinearRegression
+            LinearRegression
         """
         lin_reg = cls.__new__(cls)
-        lin_reg._n = py_simple_linear_regression
+        lin_reg._n = py_linear_regression
         return lin_reg
 
     def assert_equal_length(self, x: NamedArray, y: NamedArray) -> None:
@@ -50,7 +50,7 @@ class SimpleLinearRegression:
         :return:
             None
         """
-        self._n.assert_equal_length(x, y)
+        self._n.assert_equal_length([nm._n for nm in x], y._n)
 
     def fit(self) -> LinearRegressionReturn:
         """Fit the LinearRegression.
