@@ -40,7 +40,7 @@ jobs:
       #   run: tox -e type-check
   
   test:
-    name: Test
+    name: Python Test
     runs-on: ubuntu-20.04
     steps:
       - name: Check out repository code
