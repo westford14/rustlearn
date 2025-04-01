@@ -37,9 +37,9 @@ class SimpleLinearRegression:
         :return:
             SimpleLinearRegression
         """
-        named_array = cls.__new__(cls)
-        named_array._n = py_simple_linear_regression
-        return named_array
+        lin_reg = cls.__new__(cls)
+        lin_reg._n = py_simple_linear_regression
+        return lin_reg
 
     def assert_equal_length(self, x: NamedArray, y: NamedArray) -> None:
         """Assert two NamedArrays are equal in length.
