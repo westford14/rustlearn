@@ -1072,6 +1072,7 @@ dependencies = [
  "rustlearn-errors",
  "rustlearn-linear-model",
  "rustlearn-metrics",
+ "rustlearn-model-selection",
 ]
 
 [[package]]
@@ -1117,6 +1118,9 @@ dependencies = [
 name = "rustlearn-model-selection"
 version = "0.1.0"
 dependencies = [
+ "assert_float_eq",
+ "num",
+ "rstest",
  "rustlearn-array",
  "rustlearn-errors",
 ]
@@ -1130,6 +1134,7 @@ dependencies = [
  "rustlearn-errors",
  "rustlearn-linear-model",
  "rustlearn-metrics",
+ "rustlearn-model-selection",
 ]
 
 [[package]]
