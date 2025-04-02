@@ -34,6 +34,8 @@ class NamedArray:
         """
         named_array = cls.__new__(cls)
         named_array._n = py_named_array
+        named_array.name = named_array._n.name()
+        named_array.data = named_array._n.data()
         return named_array
 
     def is_empty(self) -> bool:

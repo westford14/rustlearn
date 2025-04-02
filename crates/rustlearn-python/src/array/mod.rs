@@ -24,6 +24,14 @@ impl PyNamedArray {
         Ok(PyNamedArray { named_array })
     }
 
+    pub fn name(&self) -> String {
+        self.named_array.name.clone()
+    }
+
+    pub fn data(&self) -> Vec<f64> {
+        self.named_array.data.clone()
+    }
+
     pub fn is_empty(&self) -> bool {
         self.named_array.is_empty()
     }
