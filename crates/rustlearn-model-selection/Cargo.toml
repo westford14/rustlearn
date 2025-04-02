@@ -4,5 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+num = "0.4"
 rustlearn-errors = { workspace = true }
 rustlearn-array = { workspace = true }
+
+[dev-dependencies]
+rstest = "0.25.0"
+assert_float_eq = "1"
