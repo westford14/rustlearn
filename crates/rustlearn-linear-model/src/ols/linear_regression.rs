@@ -99,7 +99,7 @@ where
             });
             col_names.push(nm.name.clone());
         }
-        let zeros: Vec<f64> = iter::repeat(1.0).take(x_copy[0].len()).collect();
+        let zeros: Vec<f64> = iter::repeat_n(1.0, x_copy[0].len()).collect();
         let intercepts = NamedArray {
             name: "intercepts".to_string(),
             data: zeros,
