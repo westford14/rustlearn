@@ -158,6 +158,102 @@ where
             Self::multiple_linear_regression_estimate(self)
         }
     }
+
+    pub fn single_linear_regression_predict(
+        self,
+        new_x: Vec<NamedArray<f64>>,
+        return_object: LinearRegressionReturn,
+    ) -> NamedArray<f64>
+    where
+        T: Num,
+        T: ToPrimitive,
+        T: Clone,
+        T: Into<f64>,
+        T: Copy,
+    {
+        let x_clone = new_x.clone();
+        let intercept = return_object.intercept;
+        let coef = return_object.beta_values;
+        let ret: Vec<f64> = x_clone[0]
+            .data
+            .iter()
+            .map(|x| x.to_f64().unwrap())
+            .collect();
+        let mut transformed: Vec<f64> = Vec::new();
+
+        for (_, v) in coef.iter() {
+            transformed = ret.iter().map(|x| x * v + intercept).collect();
+        }
+
+        NamedArray {
+            name: "predictions".to_string(),
+            data: transformed,
+        }
+    }
+
+    pub fn multiple_linear_regression_predict(
+        self,
+        new_x: Vec<NamedArray<f64>>,
+        return_object: LinearRegressionReturn,
+    ) -> NamedArray<f64>
+    where
+        T: Num,
+        T: ToPrimitive,
+        T: Clone,
+        T: Into<f64>,
+        T: Copy,
+    {
+        let x_clone = new_x.clone();
+        let intercept = return_object.intercept;
+        let coef = return_object.beta_values;
+        let mut convenience: HashMap<String, Vec<f64>> = HashMap::new();
+
+        for x in x_clone.iter() {
+            convenience.insert(
+                x.name.clone(),
+                x.data.iter().map(|x| x.to_f64().unwrap()).collect(),
+            );
+        }
+
+        let mut data: Vec<Vec<f64>> = Vec::new();
+        for (k, v) in coef.iter() {
+            let transformed: Vec<f64> = convenience.get(k).unwrap().iter().map(|x| x * v).collect();
+            data.push(transformed)
+        }
+
+        let vec_leng: usize = data[0].len();
+        let mut sums = vec![0.0; vec_leng];
+        for v in data {
+            for (i, x) in v.into_iter().enumerate() {
+                sums[i] += x;
+            }
+        }
+        sums = sums.iter().map(|x| x + intercept).collect();
+
+        NamedArray {
+            name: "predictions".to_string(),
+            data: sums,
+        }
+    }
+
+    pub fn predict(
+        self,
+        new_x: Vec<NamedArray<f64>>,
+        return_object: LinearRegressionReturn,
+    ) -> NamedArray<f64>
+    where
+        T: Num,
+        T: ToPrimitive,
+        T: Clone,
+        T: Into<f64>,
+        T: Copy,
+    {
+        if new_x.len() == 1 {
+            Self::single_linear_regression_predict(self, new_x, return_object)
+        } else {
+            Self::multiple_linear_regression_predict(self, new_x, return_object)
+        }
+    }
 }
 
 #[cfg(test)]
@@ -187,6 +283,20 @@ mod tests {
         NamedArray {
             name: "target".to_string(),
             data: vec![151.0, 75.0, 141.0, 206.0],
+        }
+    }
+
+    #[fixture]
+    fn one_d_prediction() -> NamedArray<f64> {
+        NamedArray {
+            name: "predictions".to_string(),
+            data: vec![
+                141.12926309,
+                492.79287226,
+                844.45648143,
+                1196.1200906,
+                1547.78369977,
+            ],
         }
     }
 
@@ -251,6 +361,26 @@ mod tests {
         )
     }
 
+    #[rstest]
+    fn test_single_predict(
+        input_named_array: Vec<NamedArray<f64>>,
+        target_named_array: NamedArray<f64>,
+        one_d_prediction: NamedArray<f64>,
+    ) {
+        let lin_reg: LinearRegression<f64> =
+            LinearRegression::new(input_named_array, target_named_array).unwrap();
+        let res = lin_reg.clone().fit().unwrap();
+        let new_x: NamedArray<f64> = NamedArray {
+            name: "new_x".to_string(),
+            data: vec![0.0, 1.0, 2.0, 3.0, 4.0],
+        };
+
+        let pred = lin_reg.clone().predict(vec![new_x], res);
+        for (i, val) in pred.data.iter().enumerate() {
+            assert_float_relative_eq!(val.to_owned(), one_d_prediction.data[i], 0.001)
+        }
+    }
+
     #[fixture]
     fn input_named_array_multi() -> Vec<NamedArray<f64>> {
         let age = NamedArray {
@@ -277,6 +407,20 @@ mod tests {
         NamedArray {
             name: "target".to_string(),
             data: vec![151.0, 75.0, 141.0, 206.0],
+        }
+    }
+
+    #[fixture]
+    fn two_d_prediction() -> NamedArray<f64> {
+        NamedArray {
+            name: "predictions".to_string(),
+            data: vec![
+                145.653177,
+                299.43245535,
+                453.2117337,
+                606.99101204,
+                760.77029039,
+            ],
         }
     }
 
@@ -321,6 +465,32 @@ mod tests {
             let v = val.to_owned();
             let res_v = res.beta_values.get(coef).unwrap().to_owned();
             assert_float_relative_eq!(res_v, v, 0.001)
+        }
+    }
+
+    #[rstest]
+    fn test_multi_predict(
+        input_named_array_multi: Vec<NamedArray<f64>>,
+        target_named_array: NamedArray<f64>,
+        two_d_prediction: NamedArray<f64>,
+    ) {
+        let lin_reg: LinearRegression<f64> =
+            LinearRegression::new(input_named_array_multi, target_named_array).unwrap();
+        let res = lin_reg.clone().fit().unwrap();
+        let new_x: Vec<NamedArray<f64>> = vec![
+            NamedArray {
+                name: "age".to_string(),
+                data: vec![0.0, 1.0, 2.0, 3.0, 4.0],
+            },
+            NamedArray {
+                name: "bmi".to_string(),
+                data: vec![0.0, 1.0, 2.0, 3.0, 4.0],
+            },
+        ];
+
+        let pred = lin_reg.clone().predict(new_x, res);
+        for (i, val) in pred.data.iter().enumerate() {
+            assert_float_relative_eq!(val.to_owned(), two_d_prediction.data[i], 0.001)
         }
     }
 }
