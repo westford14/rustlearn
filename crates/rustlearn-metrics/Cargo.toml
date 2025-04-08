@@ -10,3 +10,4 @@ rustlearn-array = { workspace = true }
 
 [dev-dependencies]
 rstest = "0.25.0"
+assert_float_eq = "1"
