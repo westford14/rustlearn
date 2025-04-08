@@ -5,38 +5,41 @@ use rustlearn_linear_model::types::LinearRegressionReturn;
 
 pub mod linear_regression;
 
+#[derive(Debug, PartialEq, FromPyObject)]
 #[pyclass]
 pub struct PyLinearRegressionReturn {
-    pub intercept: f64,
-    pub beta_values: HashMap<String, f64>,
+    pub coefficients: HashMap<String, f64>,
 }
 
 impl From<LinearRegressionReturn> for PyLinearRegressionReturn {
     fn from(linear_regression_return: LinearRegressionReturn) -> Self {
-        PyLinearRegressionReturn {
-            intercept: linear_regression_return.intercept,
-            beta_values: linear_regression_return.beta_values,
+        let mut temp: HashMap<String, f64> = HashMap::new();
+        temp.insert("intercept".to_string(), linear_regression_return.intercept);
+        for (k, v) in linear_regression_return.beta_values.iter() {
+            temp.insert(k.to_string(), v.to_owned());
         }
+        PyLinearRegressionReturn { coefficients: temp }
     }
 }
 
 #[pymethods]
 impl PyLinearRegressionReturn {
     #[new]
-    pub fn __init__(intercept: f64, beta_values: HashMap<String, f64>) -> PyResult<Self> {
-        let ret = PyLinearRegressionReturn {
-            intercept,
-            beta_values,
-        };
-
-        Ok(ret)
+    pub fn __init__(coefficients: HashMap<String, f64>) -> PyResult<Self> {
+        Ok(PyLinearRegressionReturn { coefficients })
     }
 
-    pub fn intercept(&self) -> PyResult<f64> {
-        Ok(self.intercept)
+    pub fn _intercept(&self) -> PyResult<f64> {
+        Ok(self.coefficients.get("intercept").unwrap().to_owned())
     }
 
-    pub fn beta_values(&self) -> PyResult<HashMap<String, f64>> {
-        Ok(self.beta_values.clone())
+    pub fn _beta_values(&self) -> PyResult<HashMap<String, f64>> {
+        let mut betas: HashMap<String, f64> = HashMap::new();
+        for (k, v) in self.coefficients.iter() {
+            if *k != "intercept" {
+                betas.insert(k.to_string(), v.to_owned());
+            }
+        }
+        Ok(betas)
     }
 }

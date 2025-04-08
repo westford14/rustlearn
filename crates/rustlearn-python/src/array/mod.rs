@@ -5,7 +5,7 @@ use crate::errors::PyRustLearnError;
 
 #[pyclass]
 #[repr(transparent)]
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct PyNamedArray {
     pub named_array: NamedArray<f64>,
 }
@@ -54,5 +54,50 @@ impl PyNamedArray {
             Ok(dot_product) => Ok(dot_product),
             Err(e) => Err(PyErr::from(PyRustLearnError::RustLearn(e))),
         }
+    }
+}
+
+#[cfg(test)]
+mod array_tests {
+    use super::*;
+    use rstest::*;
+
+    #[fixture]
+    fn named_array_fixture() -> PyNamedArray {
+        PyNamedArray {
+            named_array: NamedArray {
+                name: "y".to_string(),
+                data: vec![1.0, 2.0, 3.0, 4.0],
+            },
+        }
+    }
+
+    #[rstest]
+    fn test_instantiation(named_array_fixture: PyNamedArray) {
+        drop(named_array_fixture);
+    }
+
+    #[rstest]
+    fn test_is_empty(named_array_fixture: PyNamedArray) {
+        assert!(!named_array_fixture.is_empty());
+    }
+
+    #[rstest]
+    fn test_len(named_array_fixture: PyNamedArray) {
+        assert_eq!(named_array_fixture.len(), 4)
+    }
+
+    #[rstest]
+    fn test_mean(named_array_fixture: PyNamedArray) {
+        let val = named_array_fixture.mean().unwrap();
+        assert_eq!(val, 2.5)
+    }
+
+    #[rstest]
+    fn test_dot_product(named_array_fixture: PyNamedArray) {
+        let ans = named_array_fixture
+            .dot(named_array_fixture.clone())
+            .unwrap();
+        assert_eq!(ans, 30.0)
     }
 }

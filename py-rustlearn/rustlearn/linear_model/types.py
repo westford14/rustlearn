@@ -21,6 +21,6 @@ class LinearRegressionReturn:
         """
         self.intercept = intercept
         self.beta_values = beta_values
-        self._n = PyLinearRegressionReturn(
-            intercept=self.intercept, beta_values=self.beta_values
-        )
+        self.coefficients = self.beta_values.copy()
+        self.coefficients["intercept"] = self.intercept
+        self._n = PyLinearRegressionReturn(self.coefficients)

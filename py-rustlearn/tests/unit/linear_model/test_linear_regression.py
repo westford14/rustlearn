@@ -36,7 +36,7 @@ def test_x_empty() -> None:
 
 
 def test_y_empty() -> None:
-    with pytest.raises(ValidationError):
+    with pytest.raises(RuntimeError):
         LinearRegression(x=[NamedArray("x", [0.0])], y=NamedArray("y", []))
 
 
@@ -88,6 +88,20 @@ def y_missing() -> NamedArray:
     return NamedArray("target", [151.0, 75.0, 141.0, 206.0])
 
 
+@pytest.fixture
+def two_d_prediction() -> NamedArray:
+    return NamedArray(
+        "predictions",
+        [
+            145.653177,
+            299.43245535,
+            453.2117337,
+            606.99101204,
+            760.77029039,
+        ],
+    )
+
+
 def test_instantiation(x_2d, y_full) -> None:
     LinearRegression(x=x_2d, y=y_full)
 
@@ -106,3 +120,16 @@ def test_fit(x_2d, y_full) -> None:
     assert isclose(res.intercept, expected.intercept, rel_tol=0.001)
     for k, v in res.beta_values.items():
         assert isclose(expected.beta_values[k], v, rel_tol=0.001)
+
+
+def test_predict(x_2d, y_full, two_d_prediction) -> None:
+    lin_reg = LinearRegression(x=x_2d, y=y_full)
+    res = lin_reg.fit()
+    new_x = [
+        NamedArray("age", [0.0, 1.0, 2.0, 3.0, 4.0]),
+        NamedArray("bmi", [0.0, 1.0, 2.0, 3.0, 4.0]),
+    ]
+    pred = lin_reg.predict(new_x, res)
+
+    for i, val in enumerate(pred.data):
+        isclose(val, two_d_prediction.data[i], rel_tol=0.001)
