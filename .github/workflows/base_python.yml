@@ -9,7 +9,7 @@ on:
 jobs:
   lint:
     name: Linting
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -41,7 +41,7 @@ jobs:
   
   test:
     name: Python Test
-    runs-on: ubuntu-20.04
+    runs-on: ububuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
