@@ -1,6 +1,6 @@
 """Linear Regression."""
 
-from typing import Self
+from typing import List, Self
 
 from rustlearn.linear_model.types import LinearRegressionReturn
 from rustlearn.named_array import NamedArray
@@ -55,7 +55,22 @@ class LinearRegression:
     def fit(self) -> LinearRegressionReturn:
         """Fit the LinearRegression.
 
-        :return: LinearRegressionReturn
+        :return:
+            LinearRegressionReturn
         """
         result = self._n.fit()
-        return LinearRegressionReturn(result.intercept(), result.beta_values())
+        return LinearRegressionReturn(result._intercept(), result._beta_values())
+
+    def predict(
+        self, new_x: List[NamedArray], return_object: LinearRegressionReturn
+    ) -> NamedArray:
+        """Predict with the fitted Linear Regression.
+
+        :params:
+            new_x: List[NamedArray]
+            return_object: LinearRegressionReturn
+        :return:
+            NamedArray
+        """
+        result = self._n.predict([x._n for x in new_x], return_object._n)
+        return NamedArray._from_py_named_array(result)
