@@ -4,6 +4,7 @@ use rustlearn_python::exceptions::{NotYetImplementedError, RustLearnError, Valid
 use rustlearn_python::linear_model::linear_regression::PyLinearRegression;
 use rustlearn_python::linear_model::PyLinearRegressionReturn;
 use rustlearn_python::metrics::{mean_absolute_error, mean_squared_error};
+use rustlearn_python::metrics::r_2;
 use rustlearn_python::model_selection::simple::PySimpleTrainTestSplit;
 use rustlearn_python::model_selection::PyTrainTestSplitReturn;
 
@@ -27,6 +28,7 @@ fn rustylearn(py: Python, m: &Bound<PyModule>) -> PyResult<()> {
         mean_squared_error::py_root_mean_squared_error
     ))
     .unwrap();
+    m.add_wrapped(wrap_pyfunction!(r_2::py_r_2)).unwrap();
 
     // Exceptions
     m.add("RustLearnError", py.get_type::<RustLearnError>())

@@ -9,6 +9,7 @@ from rustlearn.metrics import (
     mean_absolute_error,
     mean_squared_error,
     root_mean_squared_error,
+    r_2,
 )
 from rustlearn.exceptions import ValidationError
 
@@ -71,3 +72,24 @@ def test_root_mean_squared_error_raises(y_true) -> None:
     test = NamedArray("y_pred", [1, 2, 3])
     with pytest.raises(ValidationError):
         root_mean_squared_error(y_true, test)
+
+
+def test_r_2_error_raises(y_true) -> None:
+    """Simple test for raising the AttributeError."""
+    test = NamedArray("y_pred", [1, 2, 3])
+    with pytest.raises(ValidationError):
+        r_2(y_true, test)
+
+
+def test_r_2_same() -> None:
+    """Simple test for same R_2."""
+    test = NamedArray("y_pred", [151.0, 75.0, 141.0, 206.0, 135.0])
+    true = NamedArray("y_true", [151.0, 75.0, 141.0, 206.0, 135.0])
+    assert r_2(true, test) == 1
+
+
+def test_r_2() -> None:
+    """Simple test for R_2."""
+    pred = NamedArray("y_pred", [140.0, 86.0, 120.0, 240.0, 140.0])
+    true = NamedArray("y_true", [151.0, 75.0, 141.0, 206.0, 135.0])
+    assert isclose(r_2(true, pred), 0.7861208004406095, rel_tol=0.001)
