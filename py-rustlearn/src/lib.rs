@@ -3,8 +3,8 @@ use rustlearn_python::array::PyNamedArray;
 use rustlearn_python::exceptions::{NotYetImplementedError, RustLearnError, ValidationError};
 use rustlearn_python::linear_model::linear_regression::PyLinearRegression;
 use rustlearn_python::linear_model::PyLinearRegressionReturn;
-use rustlearn_python::metrics::{mean_absolute_error, mean_squared_error};
 use rustlearn_python::metrics::r_2;
+use rustlearn_python::metrics::{mean_absolute_error, mean_squared_error};
 use rustlearn_python::model_selection::simple::PySimpleTrainTestSplit;
 use rustlearn_python::model_selection::PyTrainTestSplitReturn;
 

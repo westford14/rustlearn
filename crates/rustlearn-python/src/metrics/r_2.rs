@@ -6,10 +6,7 @@ use crate::array::PyNamedArray;
 use crate::errors::PyRustLearnError;
 
 #[pyfunction]
-pub fn py_r_2(
-    y_true: &Bound<'_, PyAny>,
-    y_pred: &Bound<'_, PyAny>,
-) -> PyResult<f64> {
+pub fn py_r_2(y_true: &Bound<'_, PyAny>, y_pred: &Bound<'_, PyAny>) -> PyResult<f64> {
     let t_s = y_true.getattr(intern!(y_true.py(), "_n"))?;
     let y_true_series = t_s.extract::<PyNamedArray>().unwrap().named_array;
     let t_p = y_pred.getattr(intern!(y_pred.py(), "_n"))?;
