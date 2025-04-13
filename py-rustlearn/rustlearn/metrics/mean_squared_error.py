@@ -1,4 +1,4 @@
-"""Mean squared error and root mean squared error.."""
+"""Mean squared error and root mean squared error."""
 
 from rustlearn import NamedArray
 from rustylearn import py_mean_squared_error, py_root_mean_squared_error
