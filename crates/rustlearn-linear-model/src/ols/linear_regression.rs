@@ -106,7 +106,7 @@ where
         };
         x_copy.insert(0, intercepts);
 
-        let mut x_matrix = Array::<f64, _>::zeros((5, 0).f());
+        let mut x_matrix = Array::<f64, _>::zeros((x_copy[0].len(), 0).f());
 
         for col in x_copy.iter() {
             x_matrix.push_column(ArrayView::from(&col.data)).unwrap();
